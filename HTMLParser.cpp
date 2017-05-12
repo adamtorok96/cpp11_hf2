@@ -6,12 +6,20 @@
 #include "UnorderedList.h"
 #include "ListItem.h"
 
-enum ElementType {OPEN, CLOSE};
+std::string HTMLParser::getId(std::string const &buffer) {
+    size_t start = buffer.find("id=\"");
 
-struct Element {
-    std::string name;
-    ElementType type;
-};
+    if( start == std::string::npos )
+        return "";
+
+    start += 4;
+    size_t end = buffer.find("\"", start);
+
+    if( end == std::string::npos )
+        return "";
+
+    return buffer.substr(start, end - start);
+}
 
 std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
     std::unique_ptr<Node> root{new Node{}};
@@ -55,13 +63,13 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
         std::cout << element.name << " " << element.type << std::endl;
 
         if( element.name.find("body") == 0 ) {
+            std::cout << "id: " << getId(element.name) << std::endl;
+
             if( element.type == OPEN ) {
                 node = new Body;
 
                 last->addChild(node);
                 last = node;
-
-                std::cout << last << std::endl;
             } else {
                 last = last->getParent();
             }
@@ -94,7 +102,6 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
                 last = node;
             } else {
                 last = last->getParent();
-                std::cout << "last: " << last->getName() << std::endl;
             }
         }
 
@@ -103,4 +110,3 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
 
     return root;
 }
-

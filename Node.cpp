@@ -26,12 +26,12 @@ void Node::prettyPrint(size_t depth) {
 }
 
 void Node::addChild(Node * node) {
-    children.push_back(std::unique_ptr<Node>{node});
+    children.push_back(std::shared_ptr<Node>{node});
 
     children.back().get()->parent = this;
 }
 
-void Node::addChild(std::unique_ptr<Node> node) {
+void Node::addChild(std::shared_ptr<Node> node) {
     node->parent = this;
 
     children.push_back(std::move(node));

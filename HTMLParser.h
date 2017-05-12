@@ -8,6 +8,15 @@
 #include "Node.h"
 
 class HTMLParser {
+    enum ElementType {OPEN, CLOSE};
+
+    struct Element {
+        std::string name;
+        ElementType type;
+    };
+
+    static std::string getId(std::string const & buffer);
+
 public:
     static std::unique_ptr<Node> parse(std::istream & is);
 };

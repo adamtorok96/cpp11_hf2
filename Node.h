@@ -8,14 +8,14 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 
 class Node {
     std::string name;
+
     Node * parent;
-    std::vector<std::unique_ptr<Node>> children;
-
-protected:
-
+    std::vector<std::shared_ptr<Node>> children;
+    std::map<std::string, std::shared_ptr<Node>> ids;
 
 public:
     Node() : parent(nullptr) {}
@@ -25,7 +25,7 @@ public:
     void prettyPrint(size_t depth = 0);
 
     void addChild(Node * node);
-    void addChild(std::unique_ptr<Node> node);
+    void addChild(std::shared_ptr<Node> node);
 
     std::string getName();
     Node * getParent() const;
