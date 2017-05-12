@@ -22,11 +22,10 @@ public:
     void prettyPrint(size_t depth = 0);
 
     void addChild(Node * node, std::string const & id);
-    void addChild(std::shared_ptr<Node> node, std::string const & id);
-
-    Node * getNodeById(std::string const & id) const;
 
     std::string getName();
+
+    Node * getNodeById(std::string const & id) const;
     Node * getParent() const;
 };
 

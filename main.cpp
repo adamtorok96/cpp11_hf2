@@ -2,8 +2,6 @@
 #include <fstream>
 #include "Node.h"
 #include "HTMLParser.h"
-#include "Body.h"
-#include "Paragraph.h"
 
 
 int main() {
@@ -13,24 +11,16 @@ int main() {
 
     is.close();
 
-//    std::unique_ptr<Node> root{new Node{}};
-//    std::unique_ptr<Node> body{new Body{}};
-//
-//    body->addChild(std::unique_ptr<Node>{new Paragraph{}});
-//
-//    //root->addChild(std::unique_ptr<Node>(new Body{}));
-//    root->addChild(std::move(body));
-
     root->print();
 
     std::cout << std::endl;
 
     root->prettyPrint();
 
-    root->getNodeById("myUl");
-//    root->getNodeById("asd")->print();
-//
-//    root->getNodeById("myUl")->print();
+    //root->getNodeById("myUl");
+    //root->getNodeById("myBody")->print();
+
+    root->getNodeById("myUl")->print();
 
     return 0;
 }

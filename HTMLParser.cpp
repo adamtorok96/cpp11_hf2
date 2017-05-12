@@ -32,8 +32,6 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
     char c;
 
     while(is >> c) {
-        std::cout << c;
-
         if( c == '<' ) {
             start = true;
         }
@@ -64,8 +62,6 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
         element = queue.front();
 
         id = getId(element.name);
-
-        std::cout << element.name << " " << element.type << " " << id << std::endl;
 
         if( element.name.find("body") == 0 ) {
             if( element.type == OPEN ) {

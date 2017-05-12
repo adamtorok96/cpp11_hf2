@@ -29,20 +29,12 @@ void Node::addChild(Node * node, std::string const & id) {
     std::shared_ptr<Node> n{node};
 
     if( !id.empty() )
-        ids.insert(ids.end(), std::pair<std::string, std::shared_ptr<Node>>(id, n));
-        //ids[id] = n;
+        this->root->ids[id] = n;
 
     n.get()->parent   = this;
     n.get()->root     = this->root;
 
     children.push_back(n);
-}
-
-void Node::addChild(std::shared_ptr<Node> node, std::string const & id) {
-    node->parent    = this;
-    node->root      = this->root;
-
-    children.push_back(std::move(node));
 }
 
 std::string Node::getName() {
@@ -54,11 +46,5 @@ Node *Node::getParent() const {
 }
 
 Node * Node::getNodeById(std::string const &id) const {
-    //return ids.find(id)->second.get(); // TODO: exception if not found
-
-    for(std::pair<std::string, std::shared_ptr<Node>> node : ids) {
-        std::cout << node.first << std::endl;
-    }
-
-    return nullptr;
+    return ids.at(id).get();
 }
