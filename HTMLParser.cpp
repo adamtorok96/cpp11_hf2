@@ -54,7 +54,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
         element = queue.front();
         std::cout << element.name << " " << element.type << std::endl;
 
-        if( element.name.compare("body") == 0 ) {
+        if( element.name.find("body") == 0 ) {
             if( element.type == OPEN ) {
                 node = new Body;
 
@@ -66,7 +66,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
                 last = last->getParent();
             }
         }
-        else if( element.name.compare("p") == 0 ) {
+        else if( element.name.find("p") == 0 ) {
             if( element.type == OPEN ) {
                 node = new Paragraph;
 
@@ -76,7 +76,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
                 last = last->getParent();
             }
         }
-        else if( element.name.compare("ul") == 0 ) {
+        else if( element.name.find("ul") == 0 ) {
             if( element.type == OPEN ) {
                 node = new UnorderedList;
 
@@ -86,7 +86,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
                 last = last->getParent();
             }
         }
-        else if( element.name.compare("li") == 0 ) {
+        else if( element.name.find("li") == 0 ) {
             if( element.type == OPEN ) {
                 node = new ListItem;
 
