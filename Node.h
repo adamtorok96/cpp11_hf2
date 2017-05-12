@@ -22,7 +22,13 @@ public:
     Node(const std::string & name) : name{name}, parent(nullptr) {}
 
     void print();
+    void prettyPrint(size_t depth = 0);
+
+    void addChild(Node * node);
     void addChild(std::unique_ptr<Node> node);
+
+    std::string getName();
+    Node * getParent() const;
 };
 
 

@@ -23,5 +23,9 @@ int main() {
 
     root->print();
 
+    std::cout << std::endl;
+
+    root->prettyPrint();
+
     return 0;
 }
