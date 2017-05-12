@@ -21,8 +21,8 @@ std::string HTMLParser::getId(std::string const &buffer) {
     return buffer.substr(start, end - start);
 }
 
-std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
-    std::unique_ptr<Node> root{new Node{}};
+std::shared_ptr<Node> HTMLParser::parse(std::istream & is) {
+    std::shared_ptr<Node> root{new Node{}};
     std::queue<Element> queue;
 
     Element element;
@@ -70,7 +70,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
                 last->addChild(node, id);
                 last = node;
             } else {
-                last = last->getParent();
+                last = last->getParent().lock().get();
             }
         }
         else if( element.name.find("p") == 0 ) {
@@ -80,7 +80,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
                 last->addChild(node, id);
                 last = node;
             } else {
-                last = last->getParent();
+                last = last->getParent().lock().get();
             }
         }
         else if( element.name.find("ul") == 0 ) {
@@ -90,7 +90,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
                 last->addChild(node, id);
                 last = node;
             } else {
-                last = last->getParent();
+                last = last->getParent().lock().get();
             }
         }
         else if( element.name.find("li") == 0 ) {
@@ -100,7 +100,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
                 last->addChild(node, id);
                 last = node;
             } else {
-                last = last->getParent();
+                last = last->getParent().lock().get();
             }
         }
 

@@ -7,7 +7,7 @@
 int main() {
     std::ifstream is("html.html");
 
-    std::unique_ptr<Node> root{HTMLParser::parse(is)};
+    std::shared_ptr<Node> root{HTMLParser::parse(is)};
 
     is.close();
 

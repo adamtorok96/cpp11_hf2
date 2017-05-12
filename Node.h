@@ -6,17 +6,21 @@
 #include <memory>
 #include <map>
 
-class Node {
+class Node : public std::enable_shared_from_this<Node> {
     std::string name;
 
-    Node * root, * parent;
+    Node * root;
 
+    std::weak_ptr<Node> parent;
+
+    //std::vector<std::shared_ptr<Node>> children;
     std::vector<std::shared_ptr<Node>> children;
+
     std::map<std::string, std::shared_ptr<Node>> ids;
 
 public:
-    Node() : root{this}, parent{nullptr} {}
-    Node(std::string const & name) : name{name}, parent{nullptr} {}
+    Node() : root{this} {}
+    Node(std::string const & name) : name{name} {}
 
     void print();
     void prettyPrint(size_t depth = 0);
@@ -26,7 +30,7 @@ public:
     std::string getName();
 
     Node * getNodeById(std::string const & id) const;
-    Node * getParent() const;
+    std::weak_ptr<Node> getParent() const;
 };
 
 

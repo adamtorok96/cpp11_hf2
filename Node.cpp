@@ -31,7 +31,7 @@ void Node::addChild(Node * node, std::string const & id) {
     if( !id.empty() )
         this->root->ids[id] = n;
 
-    n.get()->parent   = this;
+    n.get()->parent   = shared_from_this();
     n.get()->root     = this->root;
 
     children.push_back(n);
@@ -41,7 +41,7 @@ std::string Node::getName() {
     return name;
 }
 
-Node *Node::getParent() const {
+std::weak_ptr<Node> Node::getParent() const {
     return parent;
 }
 

@@ -18,7 +18,7 @@ class HTMLParser {
     static std::string getId(std::string const & buffer);
 
 public:
-    static std::unique_ptr<Node> parse(std::istream & is);
+    static std::shared_ptr<Node> parse(std::istream & is);
 };
 
 
