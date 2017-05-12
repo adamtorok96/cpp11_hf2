@@ -10,13 +10,13 @@ std::string HTMLParser::getId(std::string const &buffer) {
     size_t start = buffer.find("id=\"");
 
     if( start == std::string::npos )
-        return "";
+        return std::string();
 
     start += 4;
     size_t end = buffer.find("\"", start);
 
     if( end == std::string::npos )
-        return "";
+        return std::string();
 
     return buffer.substr(start, end - start);
 }
@@ -55,20 +55,23 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
 
     std::cout << std::endl;
 
+    std::string id;
+
     Node * last = root.get();
-    Node * node;
+    Node * node = nullptr;
 
     while( !queue.empty() ) {
         element = queue.front();
-        std::cout << element.name << " " << element.type << std::endl;
+
+        id = getId(element.name);
+
+        std::cout << element.name << " " << element.type << " " << id << std::endl;
 
         if( element.name.find("body") == 0 ) {
-            std::cout << "id: " << getId(element.name) << std::endl;
-
             if( element.type == OPEN ) {
                 node = new Body;
-
-                last->addChild(node);
+                
+                last->addChild(node, id);
                 last = node;
             } else {
                 last = last->getParent();
@@ -78,7 +81,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
             if( element.type == OPEN ) {
                 node = new Paragraph;
 
-                last->addChild(node);
+                last->addChild(node, id);
                 last = node;
             } else {
                 last = last->getParent();
@@ -88,7 +91,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
             if( element.type == OPEN ) {
                 node = new UnorderedList;
 
-                last->addChild(node);
+                last->addChild(node, id);
                 last = node;
             } else {
                 last = last->getParent();
@@ -98,7 +101,7 @@ std::unique_ptr<Node> HTMLParser::parse(std::istream & is) {
             if( element.type == OPEN ) {
                 node = new ListItem;
 
-                last->addChild(node);
+                last->addChild(node, id);
                 last = node;
             } else {
                 last = last->getParent();

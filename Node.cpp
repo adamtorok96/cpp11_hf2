@@ -25,14 +25,22 @@ void Node::prettyPrint(size_t depth) {
     }
 }
 
-void Node::addChild(Node * node) {
-    children.push_back(std::shared_ptr<Node>{node});
+void Node::addChild(Node * node, std::string const & id) {
+    std::shared_ptr<Node> n{node};
 
-    children.back().get()->parent = this;
+    if( !id.empty() )
+        ids.insert(ids.end(), std::pair<std::string, std::shared_ptr<Node>>(id, n));
+        //ids[id] = n;
+
+    n.get()->parent   = this;
+    n.get()->root     = this->root;
+
+    children.push_back(n);
 }
 
-void Node::addChild(std::shared_ptr<Node> node) {
-    node->parent = this;
+void Node::addChild(std::shared_ptr<Node> node, std::string const & id) {
+    node->parent    = this;
+    node->root      = this->root;
 
     children.push_back(std::move(node));
 }
@@ -43,4 +51,14 @@ std::string Node::getName() {
 
 Node *Node::getParent() const {
     return parent;
+}
+
+Node * Node::getNodeById(std::string const &id) const {
+    //return ids.find(id)->second.get(); // TODO: exception if not found
+
+    for(std::pair<std::string, std::shared_ptr<Node>> node : ids) {
+        std::cout << node.first << std::endl;
+    }
+
+    return nullptr;
 }

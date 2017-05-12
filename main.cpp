@@ -27,5 +27,10 @@ int main() {
 
     root->prettyPrint();
 
+    root->getNodeById("myUl");
+//    root->getNodeById("asd")->print();
+//
+//    root->getNodeById("myUl")->print();
+
     return 0;
 }
