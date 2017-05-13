@@ -1,8 +1,5 @@
-//
-// Created by edems on 2017.05.10..
-//
-
 #include <iostream>
+#include <algorithm>
 #include "Node.h"
 
 void Node::print() {
@@ -28,13 +25,20 @@ void Node::prettyPrint(size_t depth) {
 void Node::addChild(Node * node, std::string const & id) {
     std::shared_ptr<Node> n{node};
 
-    if( !id.empty() )
-        this->root->ids[id] = n;
+    if( !id.empty() ) {
+        if( auto root = this->root.lock() ) {
+            root->ids[id] = n;
+        } else {
+            this->root = shared_from_this();
+            this->root.lock()->ids[id] = n;
+        }
+    }
 
     n.get()->parent   = shared_from_this();
     n.get()->root     = this->root;
 
-    children.push_back(n);
+    //children.push_back(n);
+    children.insert(n);
 }
 
 std::string Node::getName() {
@@ -45,6 +49,36 @@ std::weak_ptr<Node> Node::getParent() const {
     return parent;
 }
 
-Node * Node::getNodeById(std::string const &id) const {
-    return ids.at(id).get();
+std::shared_ptr<Node> Node::getNodeById(std::string const &id) {
+    return ids.at(id);
+}
+
+std::shared_ptr<Node> Node::getNodeById(std::string const &id) const {
+    return ids.at(id);
+}
+
+std::set<std::shared_ptr<Node>> Node::getChildren() const {
+    return children;
+}
+
+std::shared_ptr<Node> Node::nextSibling() {
+    std::shared_ptr<Node> parent = this->parent.lock();
+
+    if( !parent || parent->children.size() == 0 )
+        return nullptr;
+
+    auto it = parent->children.find(shared_from_this());
+
+    return it == parent->children.end() ? nullptr : *(++it);
+}
+
+std::shared_ptr<Node> Node::previousSibling() {
+    std::shared_ptr<Node> parent = this->parent.lock();
+
+    if( !parent || parent->children.size() == 0 )
+        return nullptr;
+
+    auto it = parent->children.find(shared_from_this());
+
+    return it == parent->children.end() ? nullptr : *(--it);
 }
