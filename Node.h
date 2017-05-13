@@ -26,7 +26,6 @@ public:
 
     std::string getName();
 
-    std::shared_ptr<Node> getNodeById(std::string const & id);
     std::shared_ptr<Node> getNodeById(std::string const & id) const;
     std::weak_ptr<Node> getParent() const;
 

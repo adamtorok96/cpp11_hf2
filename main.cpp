@@ -20,9 +20,23 @@ int main() {
     //root->getNodeById("myUl");
     //root->getNodeById("myBody")->print();
 
-    root->getNodeById("myUl")->print();
+    try {
+        root->getNodeById("myUl")->print();
+    } catch (std::out_of_range const & exception) {
+        std::cout << "no element with myUl id" << std::endl;
+    }
 
-    std::shared_ptr<Node> firstElementOfBody = (*root->getNodeById("myBody")->getChildren().begin());
+    std::shared_ptr<Node> firstElementOfBody;
+
+    try {
+        firstElementOfBody = root->getNodeById("myBody");
+    } catch (std::out_of_range const & exception) {
+        std::cout << "no element with myBody id" << std::endl;
+        return 1;
+    }
+
+    firstElementOfBody = *firstElementOfBody->getChildren().begin();
+
 
     firstElementOfBody->nextSibling()->print();
 
