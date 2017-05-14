@@ -25,13 +25,11 @@ void Node::prettyPrint(size_t depth) {
 void Node::addChild(Node * node, std::string const & id) {
     std::shared_ptr<Node> n{node};
 
+    if( !this->root.lock() )
+        this->root = shared_from_this();
+
     if( !id.empty() ) {
-        if( auto root = this->root.lock() ) {
-            root->ids[id] = n;
-        } else {
-            this->root = shared_from_this();
-            this->root.lock()->ids[id] = n;
-        }
+        this->root.lock()->ids[id] = n;
     }
 
     n.get()->parent   = shared_from_this();

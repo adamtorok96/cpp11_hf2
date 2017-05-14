@@ -17,45 +17,19 @@ int main() {
 
     root->prettyPrint();
 
-    //root->getNodeById("myUl");
-    //root->getNodeById("myBody")->print();
+    std::shared_ptr<Node> ul;
 
     try {
-        root->getNodeById("myUl")->print();
+        ul = root->getNodeById("mylist");
     } catch (std::out_of_range const & exception) {
-        std::cout << "no element with myUl id" << std::endl;
-    }
+        std::cout << "mylist not found: " << exception.what();
 
-    std::shared_ptr<Node> firstElementOfBody;
-
-    try {
-        firstElementOfBody = root->getNodeById("myBody");
-    } catch (std::out_of_range const & exception) {
-        std::cout << "no element with myBody id" << std::endl;
         return 1;
     }
 
-    firstElementOfBody = *firstElementOfBody->getChildren().begin();
-
-
-    firstElementOfBody->nextSibling()->print();
-
-    std::cout << firstElementOfBody->nextSibling() << std::endl;
+    ul->print();
 
     std::cout << std::endl;
-
-    firstElementOfBody->nextSibling()->nextSibling()->print();
-
-    std::cout << std::endl;
-
-    std::cout << firstElementOfBody->nextSibling()->nextSibling()->previousSibling()->getName() << std::endl;
-    firstElementOfBody->nextSibling()->nextSibling()->previousSibling()->print();
-
-    std::cout << std::endl;
-
-    std::cout << firstElementOfBody->getName() << std::endl;
-    std::cout << firstElementOfBody->nextSibling()->getName() << std::endl;
-    std::cout << firstElementOfBody->nextSibling()->nextSibling()->getName() << std::endl;
 
     return 0;
 }
