@@ -31,5 +31,31 @@ int main() {
 
     std::cout << std::endl;
 
+    std::shared_ptr<Node> next_p = ul->nextSibling();
+
+    if( !next_p ) {
+        std::cout << "no next sibling element" << std::endl;
+        return 1;
+    }
+
+    std::cout << next_p->getName() << std::endl;
+
+    std::shared_ptr<Node> prev_p = next_p->previousSibling()->previousSibling();
+
+    if( !prev_p ) {
+        std::cout << "no previous sibling element" << std::endl;
+        return 1;
+    }
+
+    std::cout << prev_p->getName() << std::endl;
+
+    std::shared_ptr<Node> prev_not_found = prev_p->previousSibling();
+
+    if( !prev_not_found ) {
+        std::cout << "no previous sibling element, OK!" << std::endl;
+    } else {
+        std::cout << "found: " << prev_not_found->getName() << std::endl;
+    }
+
     return 0;
 }

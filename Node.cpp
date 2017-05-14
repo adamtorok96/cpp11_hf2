@@ -60,9 +60,9 @@ std::shared_ptr<Node> Node::nextSibling() {
     if( !parent || parent->children.size() == 0 )
         return nullptr;
 
-    auto it = parent->children.find(shared_from_this());
+    auto it = ++parent->children.find(shared_from_this());
 
-    return it == parent->children.end() ? nullptr : *(++it);
+    return it == parent->children.end() ? nullptr : *it;
 }
 
 std::shared_ptr<Node> Node::previousSibling() {
@@ -73,5 +73,5 @@ std::shared_ptr<Node> Node::previousSibling() {
 
     auto it = parent->children.find(shared_from_this());
 
-    return it == parent->children.end() ? nullptr : *(--it);
+    return it == parent->children.begin() ? nullptr : *(--it);
 }
